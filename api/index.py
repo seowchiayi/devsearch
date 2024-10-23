@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
-from .faqGenerator import main as faq_generator
-from .faqGenerator import rate_limit_exceeded
+from faqGenerator import main as faq_generator
+from faqGenerator import rate_limit_exceeded
 
 app = Flask(__name__)
 
@@ -10,7 +10,7 @@ def hello_world():
 
 # This route is used to generate the FAQ from the markdown files in the repository
 @app.route('/api/generate-faq', methods=['POST', 'GET'])
-def generate_faq_route():   
+def generate_faq_route():
     if request.method == 'POST':
         url = request.json.get('urls')
         if url:
@@ -34,4 +34,4 @@ def generate_faq_route():
         return jsonify({'error': 'bruh'}), 405
     
 if __name__ == '__main__':
-    app.run(5328)
+    app.run(debug=True, port=5328)

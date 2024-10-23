@@ -9,6 +9,7 @@ from github import Github
 from urllib.parse import urlparse
 from dotenv import load_dotenv
 from concurrent.futures import ThreadPoolExecutor
+import markdown
 
 load_dotenv()  # load environment variables
 
@@ -38,7 +39,7 @@ RATE_LIMIT_WINDOW = 60  # Time window in seconds
 RATE_LIMIT_MAX_REQUESTS = 10  # Maximum number of requests allowed per window
 
 
-def main(urls):    
+def main(urls):
     contents = get_contents(urls,GITHUB_ACCESS_TOKEN)
     if contents == -1:
         return -1
@@ -49,7 +50,7 @@ def main(urls):
 # then create repo identifier and file path
 def parse_github_url(repository_url):
     parsed_url = urlparse(repository_url)
-    path_components = parsed_url.path.strip('/').split('/')    
+    path_components = parsed_url.path.strip('/').split('/') 
     blob_index = path_components.index('blob') if 'blob' in path_components else -1
     
     if blob_index != -1:
@@ -109,18 +110,64 @@ def get_markdown_content(file_url, headers):
         response.raise_for_status()
 
         if response.status_code == 200:
-
             if file_url.endswith('.md'):
-                response_text = response.text
-                data = json.loads(response_text)
-                rich_text = data['payload']['blob']['richText']
-                return rich_text
+                markdown_content = response.text
+        
+                # Convert Markdown to HTML
+                html_content = markdown.markdown(markdown_content)  # or use markdown2.markdown() if using markdown2
+                # from transformers import pipeline
+
+                # # Initialize the summarizer pipeline
+                # summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
+
+                # def split_text(text, max_length=1000):
+                #     """Splits the text into smaller chunks."""
+                #     return [text[i:i + max_length] for i in range(0, len(text), max_length)]
+                
+
+                # # Split the markdown content
+                # chunks = split_text(html_content, max_length=1000)
+
+                # # Summarize each chunk and store the results
+                # summaries = [summarizer(chunk, max_length=150, min_length=30, do_sample=False)[0]['summary_text'] for chunk in chunks]
+
+                # # Combine all summaries into one
+                # final_summary = "\n".join(summaries)
+
+                # print("Final Summary:", final_summary)
+
+                # The summary is now shorter and can be used
+                def trim_markdown_content(markdown_text):
+                    # Simple heuristic to remove certain sections, e.g., examples, credits, etc.
+                    trimmed_lines = []
+                    skip_section = False
+                    
+                    for line in markdown_text.splitlines():
+                        if "Example" in line or "Credit" in line:
+                            skip_section = True
+                        elif skip_section and line.startswith("#"):
+                            skip_section = False
+                        if not skip_section:
+                            trimmed_lines.append(line)
+                    
+                    return "\n".join(trimmed_lines)
+
+                trimmed_content = trim_markdown_content(html_content)
+
+                return trimmed_content
+
+            # Now html_content contains the rich text version of the README.md file
+            # if file_url.endswith('.md'):
+            #     response_text = response.text
+            #     data = json.loads(response_text)
+            #     rich_text = data['payload']['blob']['richText']
+            #     return rich_text
                             
-            elif file_url.endswith('.mdx'):
-                json_data = response.json()
-                raw_lines = json_data["payload"]["blob"]["rawLines"]
-                text = "\n".join(raw_lines)
-                return text
+            # elif file_url.endswith('.mdx'):
+            #     json_data = response.json()
+            #     raw_lines = json_data["payload"]["blob"]["rawLines"]
+            #     text = "\n".join(raw_lines)
+            #     return text
     
             else:
                 return -1
@@ -138,12 +185,15 @@ def chat(prompt,questions=""):
         message_history.append({"role": "assistant", "content": questions})
     
     message_history.append({"role": "user", "content": prompt})
-    
-    response = client.chat.completions.create(
-        model = "gpt-3.5-turbo-0125",
-        messages = message_history
-    )
-    return response
+
+    try:
+        response = client.chat.completions.create(
+            model = "gpt-4o-mini",
+            messages = message_history
+        )
+        return response
+    except Exception as e:
+        print(e)
 
 # function to generate FAQ for a single file
 def process_file(file,index):
@@ -158,7 +208,7 @@ def process_file(file,index):
     # if file is in database and up to date, return directly stored faq
     # enumaration is done here, in order to keep it consistent
     if is_up_to_date(url):
-        stored_faq = get_faq(url)        
+        stored_faq = get_faq(url)     
         for i,faq in enumerate(stored_faq):
             question_number = faq[0].split('.')[0]
             updated_question = faq[0].replace(question_number, f"Q{index}")
@@ -181,9 +231,12 @@ def process_file(file,index):
         f"Editing a prompt is easy, you need to.....\n"
         f"Content :\n{content}"
     )
+    print("helloo")
     response = chat(prompt)
+
     faq = response.choices[0].message.content
     string_to_list(faq, faqs)
+    
     store_faq(url, faq)
     return faqs
 
@@ -256,5 +309,4 @@ def string_to_list(faq,list):
             answer = " ".join(answer)
             temp.append(answer)
             list.append(temp)
-    
     return list
