@@ -20,7 +20,7 @@ import markdown
 load_dotenv()  # load environment variables
 
 client = OpenAI()  # initiliaze openai api
- 
+client.api_key = os.getenv("OPENAI_API_KEY")
 # initialize github api
 GITHUB_ACCESS_TOKEN = os.getenv("GITHUB_ACCESS_TOKEN") 
 GITHUB = Github(GITHUB_ACCESS_TOKEN)
