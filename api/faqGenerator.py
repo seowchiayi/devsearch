@@ -216,7 +216,6 @@ def process_file(file,index):
             index += 1
         
         return stored_faq
-    
     prompt = (
         f"Generate {number_of_questions} frequently asked questions (FAQ) for the following content."        
         f"First, read the content and choose a question that you think users may ask frequently, consider the parts where users may struggle to understand the content and require assistance. Detect the most complex and complicated sections."
@@ -231,7 +230,6 @@ def process_file(file,index):
         f"Editing a prompt is easy, you need to.....\n"
         f"Content :\n{content}"
     )
-    print("helloo")
     response = chat(prompt)
 
     faq = response.choices[0].message.content
