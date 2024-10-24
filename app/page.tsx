@@ -62,8 +62,11 @@ export default function Home() {
       setFaq([]);
 
       const urls = data.links.map((item) => item.url);
-
-      const response = await fetch("/api/generate-faq", {
+      const API_BASE_URL =
+      process.env.NODE_ENV === "development"
+        ? process.env.NEXT_PUBLIC_DEV_DOMAIN
+        : process.env.NEXT_PUBLIC_PRODUCTION_DOMAIN;
+      const response = await fetch(`${API_BASE_URL}/api/generate-faq`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
