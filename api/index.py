@@ -10,7 +10,7 @@ import re
 import redis
 import ssl
 import requests
-from openai import OpenAI
+import openai
 from github import Github
 from urllib.parse import urlparse
 from dotenv import load_dotenv
@@ -19,8 +19,7 @@ import markdown
 
 load_dotenv()  # load environment variables
 
-client = OpenAI()  # initiliaze openai api
-client.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 # initialize github api
 GITHUB_ACCESS_TOKEN = os.getenv("GITHUB_ACCESS_TOKEN") 
 GITHUB = Github(GITHUB_ACCESS_TOKEN)
@@ -193,7 +192,7 @@ def chat(prompt,questions=""):
     message_history.append({"role": "user", "content": prompt})
 
     try:
-        response = client.chat.completions.create(
+        response = openai.chat.completions.create(
             model = "gpt-4o-mini",
             messages = message_history
         )
