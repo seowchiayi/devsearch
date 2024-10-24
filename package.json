@@ -6,7 +6,6 @@
       "node": "18.x"
   },
   "scripts": {
-    "vercel-build": "pyenv install 3.9 && pyenv global 3.9 && pnpm run build",
     "flask-dev": "FLASK_DEBUG=1 pip3 install -r requirements.txt && python api/index.py run -p 5328",
     "next-dev": "next dev",
     "dev": "concurrently \"pnpm run next-dev\" \"pnpm run flask-dev\"",

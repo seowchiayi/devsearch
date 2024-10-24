@@ -3,6 +3,9 @@
         { "src": "*.py", "use": "@vercel/python" }
       ],
       "redirects": [
-        { "source": "/", "destination": "/api/index.py" }
-      ]  
+        { "source": "/", "destination": "/api/index" }
+      ],
+      "rewrites": [
+        { "source": "/", "destination": "/api/index" }
+      ]
 }
