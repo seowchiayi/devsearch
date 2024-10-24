@@ -1,0 +1,7 @@
+{
+    "functions": {
+      "python": {
+        "runtime": "python@3.9.6"
+      }
+    }
+}
