@@ -65,6 +65,7 @@ export default function Home() {
       const URL = process.env.NEXT_PUBLIC_VERCEL_URL
       ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
       : "http://localhost:3000";
+      
       const response = await fetch(`${URL}/api/generate-faq`, {
         method: "POST",
         headers: {
