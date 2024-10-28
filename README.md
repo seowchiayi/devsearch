@@ -1,9 +1,9 @@
 # Table of Contents
 - [Table of Contents](#table-of-contents)
-- [CodeSearch](#code-search)
+- [KnowledgeSearch](#knowledge-search)
   - [Features](#features)
   - [Installation](#installation)
-  - [How to use the CodeSearch?](#how-to-use-the-code-search)
+  - [How to use the KnowledgeSearch?](#how-to-use-the-knowledge-search)
   - [OpenAI Integration](#openai-integration)
   - [Caching](#caching)
   - [Deployment](#deployment)
