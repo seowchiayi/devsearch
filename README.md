@@ -10,15 +10,11 @@
   - [Conclusion](#conclusion)
 
 
-# CodeSearch (Under Maintenance - built on top of FAQ Generator by Upstash)
+# KnowledgeSearch
 
-The CodeSearch is a tool designed to generate frequently asked questions (FAQs) from Markdown files stored in GitHub repositories. It leverages the power of OpenAI's GPT models to analyze the content of Markdown files and automatically generate questions and answers based on that content. The tool aims to reduce the workload of developers and make life easier for them.
+The KnowledgeSearch is a tool designed to generate frequently asked questions (FAQs) from Markdown files stored in GitHub repositories. It leverages the power of OpenAI's GPT models to analyze the content of Markdown files and automatically generate questions and answers based on that content. The tool aims to reduce the workload of developers and make life easier for them.
 
-<a class="inline-flex hover:bg-transparent" href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fupstash%2Ffaq-generator&amp;env=UPSTASH_ENDPOINT,UPSTASH_PASSWORD,UPSTASH_PORT,OPENAI_API_KEY,GITHUB_ACCESS_TOKEN&amp;demo-title=FAQ%20Generator&amp;demo-description=The%20FAQ%20Generator%20uses%20OpenAI's%20GPT%20models%20to%20create%20FAQs%20from%20Markdown%20files%20on%20GitHub.&amp;demo-url=https%3A%2F%2Ffaq-gen.vercel.app"><img src="https://vercel.com/button" alt="Deploy with Vercel"></a>
-
-[The Demo App](https://faq-gen.vercel.app)
-
-https://github.com/upstash/faq-generator/assets/234086/c7359e19-6d17-433b-902c-f1a2eaa09090
+[The Demo App](https://codesearch-eta.vercel.app/)
 
 ## Features
 
@@ -28,26 +24,26 @@ https://github.com/upstash/faq-generator/assets/234086/c7359e19-6d17-433b-902c-f
 - Implements rate limiting to prevent abuse of API resources.
 - Provides a user-friendly web interface for input and output.
 
+## Upcoming Features
+
+- Support for PDF documents
+- Lower latency for search results 
+
 ## Installation
 
 If you want to examine the source code or change some things according to your needs, you can install it by following these steps:
 
 1. Clone the repository to your local machine:
    ```bash
-   git clone https://github.com/upstash/faq-generator 
+   git clone https://github.com/seowchiayi/knowledgesearch
    ```
 
-2. Navigate to the project folder:
-   ```bash
-   cd faq-generator
-   ```
-
-3. Install the required dependencies:
+2. Install the required dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. Now you need to set up environment variables by creating a .env file in the project root directory and adding the following variables:
+3. Now you need to set up environment variables by creating a .env file in the project root directory and adding the following variables:
   
   - GITHUB_ACCESS_TOKEN
   - UPSTASH_ENDPOINT
@@ -61,13 +57,13 @@ If you want to examine the source code or change some things according to your n
   Then, you need to log in to your OpenAI account and create an API key. The use of API isn't free, but OpenAI lets you use the API until you reach a certain amount (For today, the limit is 5 dollars. But I suggest you check it for possible changes). Once you have your API key, the only remaining variable is the GitHub token. You can generate one by navigating through developer settings. The token must access all fields related to repository actions, so don't forget the give necessary permissions while generating your token.
 
 
-5. As the last step, you can run the program on your local machine by entering this command into your console:
+4. As the last step, you can run the program on your local machine by entering this command into your console:
    ```bash
    npm run dev
    ```
    You can access the interface by navigating to http://localhost:3000 in your web browser.
 
-## How to use the CodeSearch?
+## How to use the KnowledgeSearch?
 
 The tool has a very simple interface. It has a search bar where the user enters the URLs and a generate button that initiates the backend process. Once the FAQs are generated, they will be displayed on the page. The user can copy the FAQs to the clipboard, in a markdown format.
 
@@ -115,3 +111,14 @@ As you can see, hosting your website on Vercel is a straightforward process. Eve
 ## Conclusion
 
 In conclusion, the FAQ Generator tool provides a seamless solution for automatically generating frequently asked questions from markdown files. With its ability to process multiple URLs in parallel, integrate with Upstash for data storage, and deploy effortlessly on Vercel, the FAQ Generator simplifies the process of FAQ generation and enhances developer productivity. Additionally, this project is open to contributions from the community. If you have ideas for improvements, additional features, or bug fixes, feel free to contribute to the GitHub repository. Your contributions are valuable and can help make the FAQ Generator even more robust and useful for developers.
+
+## Credits
+Check out the [original open source repo](https://github.com/upstash/faq-generator?tab=readme-ov-file) I am building KnowledgeSearch on top of , this is a project for me to experiment with a few things:
+1. Self hosting cache (redis?)
+2. Self hosting LLama3
+3. Different types of databases and its efficiency - Cache or VectorDB or PostgreSQL when it comes to storing a piece of knowledge?
+
+## Questions for myself to measure the after the completion of this project
+1. Am I more confident about my system design decisions after this?
+2. How do I minimize the cost of running this project?
+3. How many users find this project helpful?
