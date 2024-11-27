@@ -113,53 +113,33 @@ def get_markdown_content(file_url, headers):
     try:
         response = requests.get(file_url, headers)
         response.raise_for_status()
-
+        
         if response.status_code == 200:
             if file_url.endswith('.md'):
-                markdown_content = response.text
-        
-                # Convert Markdown to HTML
-                html_content = markdown.markdown(markdown_content)  # or use markdown2.markdown() if using markdown2
-                # from transformers import pipeline
-
-                # # Initialize the summarizer pipeline
-                # summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
-
-                # def split_text(text, max_length=1000):
-                #     """Splits the text into smaller chunks."""
-                #     return [text[i:i + max_length] for i in range(0, len(text), max_length)]
                 
+                response_text = response.text
+                
+                # data = json.loads(response_text)
+                # rich_text = data['payload']['blob']['richText']
+                # return rich_text
+                print(response_text)
+                return response_text
+                # Convert Markdown to HTML
+                # html_content = markdown.markdown(markdown_content)  # or use markdown2.markdown() if using markdown2
 
-                # # Split the markdown content
-                # chunks = split_text(html_content, max_length=1000)
+                # # Chunking method 1: Character Splitting
+                # # Create a list that will hold your chunks
+                # chunks = []
 
-                # # Summarize each chunk and store the results
-                # summaries = [summarizer(chunk, max_length=150, min_length=30, do_sample=False)[0]['summary_text'] for chunk in chunks]
+                # chunk_size = 35 # Characters
 
-                # # Combine all summaries into one
-                # final_summary = "\n".join(summaries)
+                # # Run through the a range with the length of your text and iterate every chunk_size you want
+                # for i in range(0, len(text), chunk_size):
+                #     chunk = text[i:i + chunk_size]
+                #     chunks.append(chunk)
+                                
 
-                # print("Final Summary:", final_summary)
-
-                # The summary is now shorter and can be used
-                def trim_markdown_content(markdown_text):
-                    # Simple heuristic to remove certain sections, e.g., examples, credits, etc.
-                    trimmed_lines = []
-                    skip_section = False
-                    
-                    for line in markdown_text.splitlines():
-                        if "Example" in line or "Credit" in line:
-                            skip_section = True
-                        elif skip_section and line.startswith("#"):
-                            skip_section = False
-                        if not skip_section:
-                            trimmed_lines.append(line)
-                    
-                    return "\n".join(trimmed_lines)
-
-                trimmed_content = trim_markdown_content(html_content)
-
-                return trimmed_content
+                #return markdown_content
 
             # Now html_content contains the rich text version of the README.md file
             # if file_url.endswith('.md'):
@@ -345,4 +325,4 @@ def generate_faq_route():
         return jsonify({'error': f'Internal Server Error - {e}'}), 500
     
 if __name__ == '__main__':
-    app.run(debug=True, port=5328)
+    app.run(5328)

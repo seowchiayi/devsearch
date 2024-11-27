@@ -82,7 +82,7 @@ Upstash is also used to implement rate-limiting functionality, which restricts t
 
 ## Deployment
 
-We hosted our application on Vercel. It can be hosted anywhere that supports Next.js frontend and Flask backend. If you also want to use [Vercel](https://vercel.com/login), you'll need to create an account and follow these steps:
+We hosted our application on Vercel. It can be hosted anywhere that supports Next.js frontend and FastAPI backend. If you also want to use [Vercel](https://vercel.com/login), you'll need to create an account and follow these steps:
 
 1. Install the Vercel Command Line Interface (CLI) tool globally on your machine using npm or yarn. This CLI tool allows you to deploy projects directly from your terminal.
    ```bash
