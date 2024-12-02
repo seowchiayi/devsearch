@@ -89,12 +89,51 @@ export function ChatArea({ selectedConversation, selectedLLM }: ChatAreaProps) {
     }
   }
 
-  const handleUrlUpload = () => {
-    const url = prompt('Enter the URL:')
+  const handleUrlUpload = async () => {
+    const url = prompt('Enter the URL:', 'https://github.com/seowchiayi/devsearch/blob/b8fe1e0378a19976fc941d4eb08167e23143afcd/README.md')
     if (url) {
-      // TODO: Implement URL upload logic
-      console.log('URL uploaded:', url)
+      const userMessage: Message = {
+        id: Date.now(),
+        content: `${url}`,
+        sender: 'user'
+      }
+      setMessages(prevMessages => [...prevMessages, userMessage])
+      setInputValue('')
+      setIsLoading(true)
+
+      try {
+        const response = await fetch('http://localhost:8000/url', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ content: userMessage.content, llm: selectedLLM }),
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to get response from server')
+        }
+        
+        const data = await response.json()
+        const botMessage: Message = {
+          id: Date.now(),
+          content: data.response,
+          sender: 'bot'
+        }
+        setMessages(prevMessages => [...prevMessages, botMessage])
+      } catch (error) {
+        console.error('Error:', error)
+        const errorMessage: Message = {
+          id: Date.now(),
+          content: 'Sorry, there was an error processing your request.',
+          sender: 'bot'
+        }
+        setMessages(prevMessages => [...prevMessages, errorMessage])
+      } finally {
+        setIsLoading(false)
+      }
     }
+    
   }
 
   return (
