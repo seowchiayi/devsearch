@@ -17,7 +17,7 @@ app = FastAPI()
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", os.getenv("NEXT_PUBLIC_URL")],  # Allow the Next.js dev server
+    allow_origins=["http://localhost:3000", os.getenv("NEXT_PUBLIC_VERCEL_URL")],  # Allow the Next.js dev server
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
