@@ -10,6 +10,8 @@ import openai
 import os
 import re
 import markdown
+from agents_data_models import test_one_stop_agent
+
 
 load_dotenv()  # load environment variables
 app = FastAPI()
@@ -23,8 +25,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-
 openai.api_key = os.getenv("OPENAI_API_KEY")
 # initialize github api
 GITHUB_ACCESS_TOKEN = os.getenv("GITHUB_ACCESS_TOKEN") 
@@ -37,8 +37,11 @@ class Message(BaseModel):
 @app.post("/chat")
 async def chat(message: Message):
     # Mock response - in a real scenario, this would search the internal documentation
-    response = f"You asked about: {message.content}. This is a mock response from the internal documentation system."
-    return {"response": response}
+    # response = f"You asked about: {message.content}. This is a mock response from the internal documentation system."
+    # return {"response": response}
+    res = await test_one_stop_agent(message.content)
+        
+    return {"response": res}
 
 
 # function to convert string to list
@@ -156,6 +159,7 @@ async def chat(message: Message):
 
         if current_content == -1:
             return -1
+        
         
         content_info.append(trimmed_content)
         contents.append(content_info)

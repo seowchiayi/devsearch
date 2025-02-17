@@ -149,17 +149,13 @@ async def batch_embeddings(
     results = await asyncio.gather(*coros)
     return results
 
-
-
 async def get_conn():
-    
-    
-
     conn = psycopg2.connect(os.getenv('SUPABASE_URI'))
+
     cursor = conn.cursor()
 
     cursor.execute("SELECT NOW();")
-    
+
     register_vector(conn)
     
     return conn
@@ -255,7 +251,7 @@ async def insert_github_issue_summaries(conn, issues: list[GithubIssue]):
             for item in embedded_summaries
         ],
     )
-
+    conn.commit()
     print("GitHub issue summaries inserted successfully.")
 
 
