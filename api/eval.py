@@ -35,6 +35,27 @@ def test_fuzzywuzzy():
         assert find_closest_repo(query, repos) == expected
     
 def test_agentic_tooling_with_openai():
+    repos = [
+        "rust-lang/rust",
+        "kubernetes/kubernetes",
+        "apache/spark",
+        "golang/go",
+        "tensorflow/tensorflow",
+        "MicrosoftDocs/azure-docs",
+        "pytorch/pytorch",
+        "Microsoft/TypeScript",
+        "python/cpython",
+        "facebook/react",
+        "django/django",
+        "rails/rails",
+        "bitcoin/bitcoin",
+        "nodejs/node",
+        "ocaml/opam-repository",
+        "apache/airflow",
+        "scipy/scipy",
+        "vercel/next.js",
+    ]
+
     tests = [
         [
             "What is the average time to first response for issues in the azure repository over the last 6 months? Has this metric improved or worsened?",
@@ -50,7 +71,8 @@ def test_agentic_tooling_with_openai():
         ],
     ]
     for query, expected_result in tests:
-        response = one_step_agent(query)
+        response = one_step_agent(query, repos)
+        print(response)
         for expected_call, agent_call in zip(expected_result, response):
             assert isinstance(agent_call, expected_call)
 
@@ -107,3 +129,6 @@ async def test_one_step_agent(query):
     #> Users face endpoint connectivity issues in Kubernetes potentially due to networking setup errors with plugins like Calico, misconfigured network interfaces, and lack of clear documentation that hinders proper setup and troubleshooting. Proper handling of these aspects is essential for ensuring connectivity between different pods.
     
     return summary.summary
+
+if __name__ == "__main__":
+    test_agentic_tooling_with_openai()

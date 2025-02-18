@@ -52,8 +52,10 @@ class SearchIssues(BaseModel):
             LIMIT {{ limit }}
             """
         ).render(table_name="github_issues", repo_name=self.repo, limit=limit, embedding=embedding)
+        cur = conn.cursor()
+        cur.execute(sql_query)
 
-        return await conn.fetch(sql_query, *args)
+        return cur
  
 class RunSQLReturnPandas(BaseModel):
     """
@@ -65,7 +67,21 @@ class RunSQLReturnPandas(BaseModel):
         description="the repos to run the query on, should be in the format of 'owner/repo'"
     )
     async def execute(self, conn, limit: int):
-        pass
+        before_issues, after_issues = self.query.split("issues", 1)  # Split at the first occurrence of "issues"
+        before_issues = before_issues.strip()
+        after_issues = after_issues.strip()
+        sql_query = Template(
+            """
+            {{ before_issues }} github_issues {{ after_issues }}
+            """
+        ).render(query=self.query)
+        print(sql_query)
+        
+        cur = conn.cursor()
+        cur.execute(sql_query)
+
+        return cur
+        
 
 class SearchSummaries(BaseModel):
     """
@@ -146,7 +162,7 @@ def summarize_content(issues: list, query: Optional[str]):
         model="gpt-4o-mini",
     )
     
-def find_closest_repo(query: str, repos: list[str]) -> str | None:
+def find_closest_repo(query: str, repos: list[str]) -> Union[str, None]:
     if not query:
         return None
 
