@@ -47,7 +47,7 @@ packaging==24.2
 pandas==2.2.3
 pgvector==0.3.6
 propcache==0.2.1
-psycopg2==2.9.10
+psycopg2-binary==2.9.10
 pyarrow==19.0.0
 pycparser==2.22
 pydantic==2.10.6
