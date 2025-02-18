@@ -10,7 +10,7 @@ import openai
 import os
 import re
 import markdown
-from agents_data_models import test_one_stop_agent
+from eval import test_one_step_agent
 
 
 load_dotenv()  # load environment variables
@@ -39,7 +39,7 @@ async def chat(message: Message):
     # Mock response - in a real scenario, this would search the internal documentation
     # response = f"You asked about: {message.content}. This is a mock response from the internal documentation system."
     # return {"response": response}
-    res = await test_one_stop_agent(message.content)
+    res = await test_one_step_agent(message.content)
         
     return {"response": res}
 
