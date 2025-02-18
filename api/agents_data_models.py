@@ -216,7 +216,6 @@ def one_step_agent(question: str, repos):
         validation_context={"repos": repos},
         response_model=Iterable[
             Union[
-                RunSQLReturnPandas,
                 SearchIssues,
                 SearchSummaries,
             ]
