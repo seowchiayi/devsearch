@@ -1,14 +1,10 @@
 # Table of Contents
 - [Table of Contents](#table-of-contents)
-- [KnowledgeSearch](#knowledge-search)
+- [DevSearch](#devsearch)
   - [Features](#features)
   - [Installation](#installation)
-  - [How to use the KnowledgeSearch?](#how-to-use-the-knowledge-search)
-  - [OpenAI Integration](#openai-integration)
-  - [Caching](#caching)
   - [Deployment](#deployment)
   - [Conclusion](#conclusion)
-
 
 # DevSearch
 
@@ -23,7 +19,7 @@ DevSearch is an app for mid level developers to make their first open source con
 If you want to examine the source code or change some things according to your needs, you can install it by following these steps:
 
 1. Clone the repository to your local machine:
-   ```bash
+   ```
    git clone https://github.com/seowchiayi/devsearch.git
    ```
 
