@@ -23,8 +23,8 @@ interface ChatAreaProps {
   selectedLLM: string
 }
 
-const backend = process.env.NEXT_PUBLIC_VERCEL_URL
-  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+const backend = process.env.FLY_DEVSEARCH_BACKEND_URL
+  ? `${process.env.FLY_DEVSEARCH_BACKEND_URL}`
   : "http://localhost:8000";
 
 export function ChatArea({ selectedConversation, selectedLLM }: ChatAreaProps) {

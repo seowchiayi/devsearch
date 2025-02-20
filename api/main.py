@@ -19,7 +19,7 @@ app = FastAPI()
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", os.getenv("NEXT_PUBLIC_VERCEL_URL")],  # Allow the Next.js dev server
+    allow_origins=["http://localhost:3000", os.getenv("FLY_DEVSEARCH_FRONTEND_URL")],  # Allow the Next.js dev server
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -33,6 +33,10 @@ GITHUB_API_BASE = "https://api.github.com/repos/"
 
 class Message(BaseModel):
     content: str
+
+@app.get("/")
+def index():
+    return {"message": "Hello, World!"}
 
 @app.post("/chat")
 async def chat(message: Message):
