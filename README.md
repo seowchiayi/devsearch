@@ -8,7 +8,7 @@
 
 # DevSearch
 
-DevSearch is an app for mid level developers to make their first open source contribution. [See the demo here] (https://www.loom.com/share/0923becbdd234c34a9be19cac3bc2acd?sid=49d97a9d-9552-4f2b-8790-43c25c4342ee)
+DevSearch is an app for mid level developers to make their first open source contribution. [See the demo here](https://www.loom.com/share/0923becbdd234c34a9be19cac3bc2acd?sid=49d97a9d-9552-4f2b-8790-43c25c4342ee)
 
 ## Features
 
